@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plateforme d'Apprentissage du Français</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+        
+        h1, h2, h3 {
+            color: #2E7D32;
+        }
+        
+        .exercise {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .vocabulary-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        
+        .vocabulary-table th, .vocabulary-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        
+        .vocabulary-table th {
+            background-color: #f2f2f2;
+        }
+        
+        .fill-blank {
+            margin: 15px 0;
+        }
+        
+        .fill-blank input {
+            padding: 8px;
+            margin: 0 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+        
+        button:hover {
+            background-color: #45a049;
+        }
+        
+        .feedback {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 4px;
+            display: none;
+        }
+        
+        .correct {
+            background-color: #dff0d8;
+            color: #3c763d;
+        }
+        
+        .incorrect {
+            background-color: #f2dede;
+            color: #a94442;
+        }
+        
+        .pronoun-exercise {
+            margin: 15px 0;
+        }
+        
+        .pronoun-exercise input {
+            padding: 8px;
+            margin: 0 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 50px;
+        }
+        
+        .adjective-exercise {
+            margin: 15px 0;
+        }
+        
+        .adjective-option {
+            display: inline-block;
+            margin-right: 15px;
+            cursor: pointer;
+            padding: 5px 10px;
+            border-radius: 4px;
+        }
+        
+        .adjective-option:hover {
+            background-color: #f0f0f0;
+        }
+        
+        .selected {
+            background-color: #4CAF50;
+            color: white;
+        }
+        
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+        
+        .tab {
+            display: none;
+        }
+        
+        .tab.active {
+            display: block;
+        }
+        
+        .tab-buttons {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .tab-button {
+            padding: 10px 20px;
+            background-color: #f1f1f1;
+            border: none;
+            cursor: pointer;
+            margin-right: 5px;
+            border-radius: 5px 5px 0 0;
+        }
+        
+        .tab-button.active {
+            background-color: #4CAF50;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Plateforme d'Apprentissage du Français</h1>
+        <p>Exercices interactifs pour pratiquer le français</p>
+    </header>
+
+    <div class="tab-buttons">
+        <button class="tab-button active" onclick="openTab('tab1')">Description d'animaux</button>
+        <button class="tab-button" onclick="openTab('tab2')">Pronominalisation</button>
+        <button class="tab-button" onclick="openTab('tab3')">Verbe Avoir</button>
+        <button class="tab-button" onclick="openTab('tab4')">Adjectifs Qualificatifs</button>
+    </div>
+
+    <div id="tab1" class="tab active">
+        <div class="exercise">
+            <h2>Description de l'éléphant</h2>
+            <p>Complète avec les mots suivants : des pattes – des défenses – une trompe – une queue – un cou - une tête.</p>
+            
+            <div class="fill-blank">
+                <p>L'éléphant a <input type="text" id="elephant1">, <input type="text" id="elephant2">, <input type="text" id="elephant3">, <input type="text" id="elephant4">, <input type="text" id="elephant5"> et <input type="text" id="elephant6">.</p>
+                <button onclick="checkElephantDescription()">Vérifier</button>
+                <div id="elephantFeedback" class="feedback"></div>
+            </div>
+            
+            <h3>Production écrite</h3>
+            <p>Tu as visité le parc zoologique avec tes camarades, écris un paragraphe de 4 à 5 phrases pour décrire l'éléphant.</p>
+            <ul>
+                <li>Conjugue les verbes au présent de l'indicatif.</li>
+                <li>Emploi la troisième personne du singulier.</li>
+            </ul>
+            
+            <table class="vocabulary-table">
+                <tr>
+                    <th>Noms</th>
+                    <th>Verbes</th>
+                    <th>Adjectifs</th>
+                </tr>
+                <tr>
+                    <td>L'éléphant, animal, deux oreilles, une peau, une trompe, une queue</td>
+                    <td>être, avoir</td>
+                    <td>sauvage, fort, grandes, jolie, longue, énorme, courte, gris</td>
+                </tr>
+            </table>
+            
+            <textarea id="elephantEssay" rows="5" style="width: 100%; margin-top: 15px;"></textarea>
+            <button onclick="checkEssay('elephantEssay')">Vérifier la longueur</button>
+            <div id="essayFeedback" class="feedback"></div>
+        </div>
+        
+        <div class="exercise">
+            <h2>Description de la gazelle</h2>
+            <p>Complète avec les mots suivants : des pattes – des cornes – des sabots – une tête - une queue – un cou.</p>
+            
+            <div class="fill-blank">
+                <p>La gazelle a <input type="text" id="gazelle1">, <input type="text" id="gazelle2">, <input type="text" id="gazelle3">, <input type="text" id="gazelle4">, <input type="text" id="gazelle5"> et <input type="text" id="gazelle6">.</p>
+                <button onclick="checkGazelleDescription()">Vérifier</button>
+                <div id="gazelleFeedback" class="feedback"></div>
+            </div>
+            
+            <h3>Production écrite</h3>
+            <p>Tu as visité le parc zoologique avec tes camarades, écris un paragraphe de 4 à 5 phrases pour décrire la gazelle.</p>
+            <ul>
+                <li>Conjugue les verbes au présent de l'indicatif.</li>
+                <li>Emploi la troisième personne du singulier.</li>
+            </ul>
+            
+            <table class="vocabulary-table">
+                <tr>
+                    <th>Noms</th>
+                    <th>Verbes</th>
+                    <th>Adjectifs</th>
+                </tr>
+                <tr>
+                    <td>La gazelle, animal, deux cornes, une tête, une queue, quatre pattes, des sabots</td>
+                    <td>être, avoir</td>
+                    <td>sauvage, rapide, jolie, petite, courte, fine, noire</td>
+                </tr>
+            </table>
+            
+            <textarea id="gazelleEssay" rows="5" style="width: 100%; margin-top: 15px;"></textarea>
+            <button onclick="checkEssay('gazelleEssay')">Vérifier la longueur</button>
+            <div id="gazelleEssayFeedback" class="feedback"></div>
+        </div>
+    </div>
+
+    <div id="tab2" class="tab">
+        <div class="exercise">
+            <h2>La pronominalisation</h2>
+            <p>Remplace le sujet de la phrase par un pronom personnel.</p>
+            
+            <div class="pronoun-exercise">
+                <p>Le zèbre vit dans la savane. <input type="text" id="pronoun1"> vit dans la savane.</p>
+                <p>L'ours est un animal sauvage. <input type="text" id="pronoun2"> est un animal sauvage.</p>
+                <p>Les gazelles sont rapides. <input type="text" id="pronoun3"> sont rapides.</p>
+                <p>Les chameaux vivent dans le désert. <input type="text" id="pronoun4"> vivent dans le désert.</p>
+                <button onclick="checkPronouns()">Vérifier</button>
+                <div id="pronounFeedback" class="feedback"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="tab3" class="tab">
+        <div class="exercise">
+            <h2>Le verbe AVOIR</h2>
+            
+            <h3>1. Je relie par une flèche :</h3>
+            <div style="display: flex; justify-content: space-around; margin: 20px 0;">
+                <div>
+                    <p>J'</p>
+                    <p>Tu</p>
+                    <p>Il/Elle</p>
+                </div>
+                <div>
+                    <select id="avoir1">
+                        <option value="">--Choisir--</option>
+                        <option value="ai">ai</option>
+                        <option value="as">as</option>
+                        <option value="a">a</option>
+                    </select>
+                    <select id="avoir2">
+                        <option value="">--Choisir--</option>
+                        <option value="ai">ai</option>
+                        <option value="as">as</option>
+                        <option value="a">a</option>
+                    </select>
+                    <select id="avoir3">
+                        <option value="">--Choisir--</option>
+                        <option value="ai">ai</option>
+                        <option value="as">as</option>
+                        <option value="a">a</option>
+                    </select>
+                </div>
+                <div>
+                    <p>Nous</p>
+                    <p>Vous</p>
+                    <p>Ils/Elles</p>
+                </div>
+                <div>
+                    <select id="avoir4">
+                        <option value="">--Choisir--</option>
+                        <option value="avons">avons</option>
+                        <option value="avez">avez</option>
+                        <option value="ont">ont</option>
+                    </select>
+                    <select id="avoir5">
+                        <option value="">--Choisir--</option>
+                        <option value="avons">avons</option>
+                        <option value="avez">avez</option>
+                        <option value="ont">ont</option>
+                    </select>
+                    <select id="avoir6">
+                        <option value="">--Choisir--</option>
+                        <option value="avons">avons</option>
+                        <option value="avez">avez</option>
+                        <option value="ont">ont</option>
+                    </select>
+                </div>
+            </div>
+            
+            <h3>2. J'entoure la bonne réponse :</h3>
+            <div class="adjective-exercise">
+                <p onclick="selectOption(this)">Il <span class="adjective-option">a</span> / <span class="adjective-option">ai</span> quatre pattes</p>
+                <p onclick="selectOption(this)">Nous <span class="adjective-option">avons</span> / <span class="adjective-option">avez</span> une grande maison.</p>
+                <p onclick="selectOption(this)">J' <span class="adjective-option">as</span> / <span class="adjective-option">ai</span> un cartable bleu.</p>
+                <p onclick="selectOption(this)">Elles <span class="adjective-option">ont</span> / <span class="adjective-option">avez</span> de jolis cornes.</p>
+            </div>
+            
+            <h3>3. Je complète par le pronom qui convient.</h3>
+            <div class="fill-blank">
+                <p><input type="text" id="pronoun5"> avez des stylos bleus.</p>
+                <p><input type="text" id="pronoun6"> as une jolie robe rose.</p>
+                <p><input type="text" id="pronoun7"> a un long cou.</p>
+                <button onclick="checkPronouns2()">Vérifier</button>
+                <div id="pronounFeedback2" class="feedback"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="tab4" class="tab">
+        <div class="exercise">
+            <h2>Les adjectifs qualificatifs épithètes</h2>
+            <p>Je complète par l'adjectif qui convient :</p>
+            <p>petites – jolie – grandes – puissante – fines – longue – énormes – pointus</p>
+            
+            <div class="fill-blank">
+                <p>Le lion a une <input type="text" id="adj1"> crinière.</p>
+                <p>Il possède une mâchoire <input type="text" id="adj2">.</p>
+                <p>Le fennec a de <input type="text" id="adj3"> pattes.</p>
+                <p>Il possède une <input type="text" id="adj4"> queue.</p>
+                <p>L'éléphant a deux <input type="text" id="adj5"> oreilles.</p>
+                <p>Il possède des pattes <input type="text" id="adj6">.</p>
+                <p>La gazelle a des pattes <input type="text" id="adj7">.</p>
+                <p>Elle possède des sabots <input type="text" id="adj8">.</p>
+                <button onclick="checkAdjectives()">Vérifier</button>
+                <div id="adjectiveFeedback" class="feedback"></div>
+            </div>
+            
+            <h3>L'accord de l'adjectif</h3>
+            <p>J'entoure la bonne réponse :</p>
+            <div class="adjective-exercise">
+                <p onclick="selectOption(this)">La girafe a un <span class="adjective-option">long</span> / <span class="adjective-option">longue</span> cou.</p>
+                <p onclick="selectOption(this)">Sa queue est <span class="adjective-option">court</span> / <span class="adjective-option">courte</span>.</p>
+                <p onclick="selectOption(this)">Le zèbre a des rayures <span class="adjective-option">noire</span> / <span class="adjective-option">noires</span>.</p>
+                <p onclick="selectOption(this)">Sa tête est <span class="adjective-option">grand</span> / <span class="adjective-option">grande</span>.</p>
+            </div>
+            
+            <p>Je fais l'accord de l'adjectif :</p>
+            <div class="fill-blank">
+                <p>Le loup possède des pattes [puissant] <input type="text" id="adj9">.</p>
+                <p>Le chameau a deux [joli] <input type="text" id="adj10"> bosses.</p>
+                <p>Le singe a une [long] <input type="text" id="adj11"> queue.</p>
+                <button onclick="checkAdjectiveAgreement()">Vérifier</button>
+                <div id="agreementFeedback" class="feedback"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openTab(tabName) {
+            const tabs = document.getElementsByClassName("tab");
+            for (let i = 0; i < tabs.length; i++) {
+                tabs[i].classList.remove("active");
+            }
+            
+            const tabButtons = document.getElementsByClassName("tab-button");
+            for (let i = 0; i < tabButtons.length; i++) {
+                tabButtons[i].classList.remove("active");
+            }
+            
+            document.getElementById(tabName).classList.add("active");
+            event.currentTarget.classList.add("active");
+        }
+        
+        function selectOption(element) {
+            const options = element.querySelectorAll(".adjective-option");
+            options.forEach(opt => opt.classList.remove("selected"));
+            event.target.classList.add("selected");
+        }
+        
+        function checkElephantDescription() {
+            const answers = [
+                document.getElementById("elephant1").value.toLowerCase(),
+                document.getElementById("elephant2").value.toLowerCase(),
+                document.getElementById("elephant3").value.toLowerCase(),
+                document.getElementById("elephant4").value.toLowerCase(),
+                document.getElementById("elephant5").value.toLowerCase(),
+                document.getElementById("elephant6").value.toLowerCase()
+            ];
+            
+            const correctAnswers = ["des pattes", "des défenses", "une trompe", "une queue", "un cou", "une tête"];
+            let allCorrect = true;
+            let feedback = "";
+            
+            for (let i = 0; i < answers.length; i++) {
+                if (answers[i] !== correctAnswers[i]) {
+                    allCorrect = false;
+                    feedback += `La partie ${i+1} est incorrecte. La réponse correcte est "${correctAnswers[i]}".<br>`;
+                }
+            }
+            
+            const feedbackDiv = document.getElementById("elephantFeedback");
+            if (allCorrect) {
+                feedbackDiv.innerHTML = "Toutes les réponses sont correctes! Bravo!";
+                feedbackDiv.className = "feedback correct";
+            } else {
+                feedbackDiv.innerHTML = feedback;
+                feedbackDiv.className = "feedback incorrect";
+            }
+            feedbackDiv.style.display = "block";
+        }
+        
+        function checkGazelleDescription() {
+            const answers = [
+                document.getElementById("gazelle1").value.toLowerCase(),
+                document.getElementById("gazelle2").value.toLowerCase(),
+                document.getElementById("gazelle3").value.toLowerCase(),
+                document.getElementById("gazelle4").value.toLowerCase(),
+                document.getElementById("gazelle5").value.toLowerCase(),
+                document.getElementById("gazelle6").value.toLowerCase()
+            ];
+            
+            const correctAnswers = ["des pattes", "des cornes", "des sabots", "une tête", "une queue", "un cou"];
+            let allCorrect = true;
+            let feedback = "";
+            
+            for (let i = 0; i < answers.length; i++) {
+                if (answers[i] !== correctAnswers[i]) {
+                    allCorrect = false;
+                    feedback += `La partie ${i+1} est incorrecte. La réponse correcte est "${correctAnswers[i]}".<br>`;
+                }
+            }
+            
+            const feedbackDiv = document.getElementById("gazelleFeedback");
+            if (allCorrect) {
+                feedbackDiv.innerHTML = "Toutes les réponses sont correctes! Bravo!";
+                feedbackDiv.className = "feedback correct";
+            } else {
+                feedbackDiv.innerHTML = feedback;
+                feedbackDiv.className = "feedback incorrect";
+            }
+            feedbackDiv.style.display = "block";
+        }
+        
+        function checkEssay(textareaId) {
+            const essay = document.getElementById(textareaId).value;
+            const sentences = essay.split(/[.!?]+/).filter(s => s.trim().length > 0);
+            const feedbackDiv = textareaId === "elephantEssay" ? document.getElementById("essayFeedback") : document.getElementById("gazelleEssayFeedback");
+            
+            if (sentences.length >= 4 && sentences.length <= 5) {
+                feedbackDiv.innerHTML = "Votre paragraphe a la bonne longueur!";
+                feedbackDiv.className = "feedback correct";
+            } else {
+                feedbackDiv.innerHTML = `Votre paragraphe contient ${sentences.length} phrases. Il faut écrire entre 4 et 5 phrases.`;
+                feedbackDiv.className = "feedback incorrect";
+            }
+            feedbackDiv.style.display = "block";
+        }
+        
+        function checkPronouns() {
+            const answers = [
+                document.getElementById("pronoun1").value.toLowerCase(),
+                document.getElementById("pronoun2").value.toLowerCase(),
+                document.getElementById("pronoun3").value.toLowerCase(),
+                document.getElementById("pronoun4").value.toLowerCase()
+            ];
+            
+            const correctAnswers = ["il", "il", "elles", "ils"];
+            let allCorrect = true;
+            let feedback = "";
+            
+            for (let i = 0; i < answers.length; i++) {
+                if (answers[i] !== correctAnswers[i]) {
+                    allCorrect = false;
+                    feedback += `La réponse ${i+1} est incorrecte. La réponse correcte est "${correctAnswers[i]}".<br>`;
+                }
+            }
+            
+            const feedbackDiv = document.getElementById("pronounFeedback");
+            if (allCorrect) {
+                feedbackDiv.innerHTML = "Toutes les réponses sont correctes! Bravo!";
+                feedbackDiv.className = "feedback correct";
+            } else {
+                feedbackDiv.innerHTML = feedback;
+                feedbackDiv.className = "feedback incorrect";
+            }
+            feedbackDiv.style.display = "block";
+        }
+        
+        function checkPronouns2() {
+            const answers = [
+                document.getElementById("pronoun5").value.toLowerCase(),
+                document.getElementById("pronoun6").value.toLowerCase(),
+                document.getElementById("pronoun7").value.toLowerCase()
+            ];
+            
+            const correctAnswers = ["vous", "tu", "il"];
+            let allCorrect = true;
+            let feedback = "";
+            
+            for (let i = 0; i < answers.length; i++) {
+                if (answers[i] !== correctAnswers[i]) {
+                    allCorrect = false;
+                    feedback += `La réponse ${i+1} est incorrecte. La réponse correcte est "${correctAnswers[i]}".<br>`;
+                }
+            }
+            
+            const feedbackDiv = document.getElementById("pronounFeedback2");
+            if (allCorrect) {
+                feedbackDiv.innerHTML = "Toutes les réponses sont correctes! Bravo!";
+                feedbackDiv.className = "feedback correct";
+            } else {
+                feedbackDiv.innerHTML = feedback;
+                feedbackDiv.className = "feedback incorrect";
+            }
+            feedbackDiv.style.display = "block";
+        }
+        
+        function checkAdjectives() {
+            const answers = [
+                document.getElementById("adj1").value.toLowerCase(),
+                document.getElementById("adj2").value.toLowerCase(),
+                document.getElementById("adj3").value.toLowerCase(),
+                document.getElementById("adj4").value.toLowerCase(),
+                document.getElementById("adj5").value.toLowerCase(),
+                document.getElementById("adj6").value.toLowerCase(),
+                document.getElementById("adj7").value.toLowerCase(),
+                document.getElementById("adj8").value.toLowerCase()
+            ];
+            
+            const correctAnswers = ["jolie", "puissante", "longues", "longue", "grandes", "énormes", "fines", "pointus"];
+            let allCorrect = true;
+            let feedback = "";
+            
+            for (let i = 0; i < answers.length; i++) {
+                if (answers[i] !== correctAnswers[i]) {
+                    allCorrect = false;
+                    feedback += `La réponse ${i+1} est incorrecte. La réponse correcte est "${correctAnswers[i]}".<br>`;
+                }
+            }
+            
+            const feedbackDiv = document.getElementById("adjectiveFeedback");
+            if (allCorrect) {
+                feedbackDiv.innerHTML = "Toutes les réponses sont correctes! Bravo!";
+                feedbackDiv.className = "feedback correct";
+            } else {
+                feedbackDiv.innerHTML = feedback;
+                feedbackDiv.className = "feedback incorrect";
+            }
+            feedbackDiv.style.display = "block";
+        }
+        
+        function checkAdjectiveAgreement() {
+            const answers = [
+                document.getElementById("adj9").value.toLowerCase(),
+                document.getElementById("adj10").value.toLowerCase(),
+                document.getElementById("adj11").value.toLowerCase()
+            ];
+            
+            const correctAnswers = ["puissantes", "jolies", "longue"];
+            let allCorrect = true;
+            let feedback = "";
+            
+            for (let i = 0; i < answers.length; i++) {
+                if (answers[i] !== correctAnswers[i]) {
+                    allCorrect = false;
+                    feedback += `La réponse ${i+1} est incorrecte. La réponse correcte est "${correctAnswers[i]}".<br>`;
+                }
+            }
+            
+            const feedbackDiv = document.getElementById("agreementFeedback");
+            if (allCorrect) {
+                feedbackDiv.innerHTML = "Toutes les réponses sont correctes! Bravo!";
+                feedbackDiv.className = "feedback correct";
+            } else {
+                feedbackDiv.innerHTML = feedback;
+                feedbackDiv.className = "feedback incorrect";
+            }
+            feedbackDiv.style.display = "block";
+        }
+    </script>
+</body>
+</html>
